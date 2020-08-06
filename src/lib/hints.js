@@ -15,12 +15,10 @@ class Hints {
                     color: new ThemeColor('parameterHints.hintForeground'),
                     contentText: message,
                     backgroundColor: new ThemeColor('parameterHints.hintBackground'),
-                    margin: `0px 4px 0px 4px`,
-                    padding: `4px 4px;`,
+                    margin: `0px 2px 0px 2px; padding: 1px 4px;`,
                     borderRadius: '5px',
                     fontStyle: 'italic',
-                    fontWeight: '400',
-                    fontSize: '12px'
+                    fontWeight: '400; font-size: 12px;'
                 }
             }
         };
