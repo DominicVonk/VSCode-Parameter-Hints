@@ -16,7 +16,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:javascript"
+		"onLanguage:javascript",
+		"onLanguage:php"
 	],
 	"contributes": {
 		"commands": [
@@ -72,6 +73,7 @@
 	"dependencies": {
 		"dash-ast": "^2.0.1",
 		"escaya": "0.0.17",
+		"php-parser": "^3.0.1",
 		"typescript-parser": "^2.6.1"
 	}
 }

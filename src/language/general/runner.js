@@ -39,10 +39,9 @@ module.exports.runner = function runner(languageRunner, editor, after) {
 
             resolve([hints, nodes]);
         } catch (e) {
-            console.log(e, 'rejected');
             resolve([hints, nodes]);
         }
     });
-    _runner.catch(e => console.log(e));
+    _runner.catch(e => { });
     return _runner;
 }

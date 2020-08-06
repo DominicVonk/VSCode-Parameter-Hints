@@ -3,7 +3,7 @@
 const vscode = require('vscode');
 const { runner } = require('./language/general/runner');
 const { runner: javascriptRunner } = require('./language/javascript/runner');
-const { time } = require('console');
+const { runner: phpRunner } = require('./language/php/runner');
 
 const hintDecorationType = vscode.window.createTextEditorDecorationType({});
 // this method is called when your extension is activated
@@ -24,21 +24,29 @@ function activate(context) {
 	);
 
 	let timeout = null;
-	const trigger = (editor, force) => {
+	const trigger = (editor, force, time = 100) => {
 		currentRunner && !currentRunner.state.done && currentRunner.reject();
 
 		if (timeout) {
 			clearTimeout(timeout);
 		}
 		timeout = setTimeout(() => {
-			if (editor && (isEnabled() || force) && editor.document.languageId === 'javascript') {
-				currentRunner = runner(javascriptRunner, editor, hints => {
-					if (hints !== false && isEnabled()) {
-						editor.setDecorations(hintDecorationType, hints);
-					}
-				})
+			if (editor && (isEnabled() || force)) {
+				if (editor.document.languageId === 'javascript') {
+					currentRunner = runner(javascriptRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							editor.setDecorations(hintDecorationType, hints);
+						}
+					})
+				} else if (editor.document.languageId === 'php') {
+					currentRunner = runner(phpRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							editor.setDecorations(hintDecorationType, hints);
+						}
+					})
+				}
 			}
-		}, 100);
+		}, time);
 	}
 	const clear = (editor) => {
 		if (timeout) {
@@ -71,7 +79,7 @@ function activate(context) {
 
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
 		if (event.contentChanges.length) {
-			trigger(activeEditor);
+			trigger(activeEditor, false, 300);
 		}
 	}))
 }

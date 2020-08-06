@@ -11,7 +11,6 @@ function pipe(action, condition, previousPromise, broken = false) {
                     let output = await action();
                     resolve(output);
                 } catch (e) {
-                    console.log(e, 'rejected');
                     if (e === 'cancelled') {
                         reject();
                     } else {
@@ -52,9 +51,13 @@ module.exports.promisable = function promisable(action, condition) {
     let promise = cancellablePromise(async (resolve, reject, state) => {
         try {
             let output = await action(state);
-            resolve(output);
+            if (!output) {
+                throw new Error('')
+            } else {
+                resolve(output);
+            }
+
         } catch (e) {
-            console.log(e);
             if (e === 'cancelled') {
                 reject();
             } else {
