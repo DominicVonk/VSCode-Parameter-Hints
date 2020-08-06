@@ -52,5 +52,5 @@ Shows the parameter name of the called function
 [Escaya](https://github.com/escaya/escaya/)  
 [Dash-AST](https://github.com/goto-bus-stop/dash-ast)  
 [Node-Typescript-Parser](https://github.com/buehler/node-typescript-parse)  
-[php-parameter-hint](https://github.com/robertgr991/php-parameter-hint)
+[php-parameter-hint](https://github.com/robertgr991/php-parameter-hint)  
 [php-parser](https://github.com/glayzzle/php-parser)
