@@ -16,7 +16,7 @@ Shows the parameter name of the called function
 ## Colors
 
 | Name | Description |
----|---|---
+---|---
 |`parameterHints.hintForeground`|Specifies the foreground color for the hint|
 |`parameterHints.hintBackground`|Specifies the background color for the hint|
 
