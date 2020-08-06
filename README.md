@@ -6,6 +6,17 @@
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
 Shows the parameter name of the called function
+
+&nbsp;
+&nbsp; 
+
+## Supported languages *
+- Javascript
+- PHP
+
+&nbsp; 
+\* _Feel free to contribute_
+
 &nbsp;
 &nbsp; 
 
@@ -42,3 +53,4 @@ Shows the parameter name of the called function
 [Dash-AST](https://github.com/goto-bus-stop/dash-ast)  
 [Node-Typescript-Parser](https://github.com/buehler/node-typescript-parse)  
 [php-parameter-hint](https://github.com/robertgr991/php-parameter-hint)
+[php-parser](https://github.com/glayzzle/php-parser)
