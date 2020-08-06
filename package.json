@@ -2,7 +2,7 @@
 	"name": "parameter-hints",
 	"displayName": "Parameter Hints",
 	"description": "Automatic parameter hints",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"preview": true,
 	"repository": {
 		"type": "git",
