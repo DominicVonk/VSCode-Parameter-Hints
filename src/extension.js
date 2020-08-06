@@ -22,14 +22,15 @@ function activate(context) {
 	const isEnabled = () => vscode.workspace.getConfiguration("parameterHints").get(
 		"enabled",
 	);
+
 	let timeout = null;
-	let trigger = (editor, force) => {
+	const trigger = (editor, force) => {
+		currentRunner && !currentRunner.state.done && currentRunner.reject();
+
 		if (timeout) {
 			clearTimeout(timeout);
 		}
 		timeout = setTimeout(() => {
-			currentRunner && !currentRunner.state.done && currentRunner.reject();
-
 			if (editor && (isEnabled() || force) && editor.document.languageId === 'javascript') {
 				currentRunner = runner(javascriptRunner, editor, hints => {
 					if (hints !== false && isEnabled()) {
@@ -39,15 +40,15 @@ function activate(context) {
 			}
 		}, 100);
 	}
-	let clear = (editor) => {
+	const clear = (editor) => {
 		if (timeout) {
 			clearTimeout(timeout);
 		}
 		currentRunner && !currentRunner.state.done && currentRunner.reject();
 		editor && editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-
 	}
-	trigger(activeEditor);
+
+
 	vscode.commands.registerCommand('parameterHints.toggle', () => {
 		const currentState = vscode.workspace.getConfiguration('parameterHints').get('enabled');
 		let message = `${messageHeader} Hints ${currentState ? 'disabled' : 'enabled'}`;
@@ -60,11 +61,13 @@ function activate(context) {
 		}
 		vscode.window.setStatusBarMessage(message, hideMessageAfterMs);
 	})
+
+	trigger(activeEditor);
+
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
 		activeEditor = editor;
 		trigger(activeEditor);
 	}));
-
 
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
 		if (event.contentChanges.length) {
