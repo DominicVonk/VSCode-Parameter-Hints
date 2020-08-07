@@ -22,6 +22,9 @@ function activate(context) {
 	const isEnabled = () => vscode.workspace.getConfiguration("parameterHints").get(
 		"enabled",
 	);
+	const languagesEnabled = () => vscode.workspace.getConfiguration("parameterHints").get(
+		"languages",
+	);
 
 	let timeout = null;
 	const trigger = (editor, force, time = 100) => {
@@ -32,13 +35,13 @@ function activate(context) {
 		}
 		timeout = setTimeout(() => {
 			if (editor && (isEnabled() || force)) {
-				if (editor.document.languageId === 'javascript') {
+				if (languagesEnabled().includes("javascript") && editor.document.languageId === 'javascript') {
 					currentRunner = runner(javascriptRunner, editor, hints => {
 						if (hints !== false && isEnabled()) {
 							editor.setDecorations(hintDecorationType, hints);
 						}
 					})
-				} else if (editor.document.languageId === 'php') {
+				} else if (languagesEnabled().includes("php") && editor.document.languageId === 'php') {
 					currentRunner = runner(phpRunner, editor, hints => {
 						if (hints !== false && isEnabled()) {
 							editor.setDecorations(hintDecorationType, hints);

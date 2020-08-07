@@ -28,7 +28,6 @@ module.exports.cancellablePromise = function cancellablePromise(promiseFunction,
                 done();
             }
         } else {
-            console.log('already ' + status);
         }
     };
     let resolve = (e) => {
@@ -42,7 +41,6 @@ module.exports.cancellablePromise = function cancellablePromise(promiseFunction,
             }
             done();
         } else {
-            console.log('already ' + status);
         }
     }
     promise = new Promise(async (_resolve, _reject) => {

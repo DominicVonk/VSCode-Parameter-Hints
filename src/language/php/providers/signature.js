@@ -31,9 +31,14 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                     }
                 }
                 if (label) {
+                    let operatorsTill = node.loc.source.substr(node.what.loc.end.offset - node.loc.start.offset + 1, node.arguments[i].loc.start.offset - node.what.loc.end.offset - 1)
+                    let correction = operatorsTill.length - operatorsTill.lastIndexOf(',') - operatorsTill.substr(operatorsTill.lastIndexOf(',') + 1).match(/^(\s*)/)[0].length - 1;
+                    if (correction < 0) {
+                        correction = 0;
+                    }
                     params.push({
                         label: label.replace('?', '').trim() + ':',
-                        range: new vscode.Range(positionOf(node.arguments[i].loc.start.offset),
+                        range: new vscode.Range(positionOf(node.arguments[i].loc.start.offset - correction),
                             positionOf(node.arguments[i].loc.end.offset))
                     });
                 }

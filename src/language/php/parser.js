@@ -8,7 +8,8 @@ module.exports.parser = (text) => {
             php7: true
         },
         ast: {
-            withPositions: true
+            withPositions: true,
+            withSource: true,
         }
     });
     let ast = parser.parseCode(text);
@@ -19,11 +20,13 @@ module.exports.parser = (text) => {
             if (currentNode.what.kind === 'propertylookup' || currentNode.what.kind === 'staticlookup') {
                 let _node = {
                     what: currentNode.what.offset,
-                    arguments: currentNode.arguments
+                    arguments: currentNode.arguments,
+                    loc: currentNode.loc
                 };
                 nodes[_node.what.loc.start.offset] = _node;
             } else {
                 nodes[currentNode.what.loc.start.offset] = currentNode;
+
             }
         } else if (currentNode.kind === 'new') {
             nodes[currentNode.what.loc.start.offset] = currentNode;

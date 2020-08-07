@@ -16,8 +16,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:javascript",
-		"onLanguage:php"
+		"onStartupFinished"
 	],
 	"contributes": {
 		"commands": [
@@ -34,6 +33,18 @@
 						"type": "boolean",
 						"description": "Enable Parameter Hints",
 						"default": true
+					},
+					"parameterHints.languages": {
+						"type": "array",
+						"description": "Enable Languages",
+						"default": [
+							"php",
+							"javascript"
+						],
+						"enum": [
+							"php",
+							"javascript"
+						]
 					}
 				}
 			}
@@ -74,6 +85,7 @@
 		"dash-ast": "^2.0.1",
 		"escaya": "0.0.17",
 		"php-parser": "^3.0.1",
+		"phptoast": "^8.0.0",
 		"typescript-parser": "^2.6.1"
 	}
 }

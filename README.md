@@ -25,6 +25,7 @@ Shows the parameter name of the called function
 |Name|Description|Default|
 ---|---|---
 |`parameterHints.enabled`|Enable Parameter Hints|`true`|
+|`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`["php","javascript"]`|
 
 &nbsp;
 &nbsp;
