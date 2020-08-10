@@ -26,7 +26,6 @@ class Hints {
         if (margins.length == 3) {
             margins.push(margins[1]);
         }
-        console.log(margins.join('px ') + 'px');
         return margins.join('px ') + 'px; top: ' + top + 'px; bottom: ' + bottom + 'px;';
     }
 
@@ -42,7 +41,6 @@ class Hints {
         if (paddings.length == 3) {
             paddings.push(paddings[1]);
         }
-        console.log(paddings.join('px ') + 'px');
         return paddings.join('px ') + 'px';
     }
     static paramHint(message, range) {
