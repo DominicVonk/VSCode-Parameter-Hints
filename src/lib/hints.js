@@ -12,6 +12,7 @@ class Hints {
         let top = 0;
         if (margins[0].substr(0, 1) === '-') {
             top = margins[0];
+            margins[0] = '0';
         }
         if (margins.length == 1) {
             margins.push(margins[0]);
@@ -21,7 +22,8 @@ class Hints {
         }
         let bottom = 0;
         if (margins[2].substr(0, 1) === '-') {
-            bottom = margins[0];
+            bottom = margins[2];
+            margins[2] = '0';
         }
         if (margins.length == 3) {
             margins.push(margins[1]);
