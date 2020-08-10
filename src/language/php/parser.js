@@ -26,17 +26,13 @@ module.exports.parser = (text) => {
                         loc: currentNode.loc
                     };
                     _node.start = _node.what.loc.start.offset;
-                    _node.end = _node.arguments[_node.arguments.length - 1].loc.end.offset;
-                    _node.hash = hashCode(text.substr(Math.max(0, _node.start - 100), _node.end - _node.start + 100));
-                    currentNode.source = _node.what.loc.source;
+                    _node.final_end = _node.arguments[_node.arguments.length - 1].loc.end.offset;
                     nodes[_node.start] = _node;
                 }
             } else {
                 if (currentNode.arguments.length) {
                     currentNode.start = currentNode.what.loc.start.offset;
-                    currentNode.end = currentNode.arguments[currentNode.arguments.length - 1].loc.end.offset;
-                    currentNode.hash = hashCode(text.substr(Math.max(0, currentNode.start - 100), currentNode.end - currentNode.start + 100));
-                    currentNode.source = currentNode.what.loc.source;
+                    currentNode.final_end = currentNode.arguments[currentNode.arguments.length - 1].loc.end.offset;
                     nodes[currentNode.start] = currentNode;
                 }
 
@@ -44,18 +40,11 @@ module.exports.parser = (text) => {
         } else if (currentNode.kind === 'new') {
             if (currentNode.arguments.length) {
                 currentNode.start = currentNode.what.loc.start.offset;
-                currentNode.end = currentNode.arguments[currentNode.arguments.length - 1].loc.end.offset;
-                currentNode.hash = hashCode(text.substr(Math.max(0, currentNode.start - 100), currentNode.end - currentNode.start + 100));
-                currentNode.source = currentNode.what.loc.source;
+                currentNode.final_end = currentNode.arguments[currentNode.arguments.length - 1].loc.end.offset;
                 nodes[currentNode.start] = currentNode;
-            }
-        }
-        else if (currentNode.kind === 'method' || currentNode.kind === 'function') {
-            if (currentNode.name && currentNode.name.name) {
-                localMethod.push(currentNode.name.name)
             }
         }
     });
 
-    return [Object.values(nodes), localMethod];
+    return Object.values(nodes);
 }

@@ -5,7 +5,7 @@ let typescriptParser = new TypescriptParser();
 module.exports.hoverProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.start);
 
-    let hoverCommand = await hoverProvider(editor, node, nodePosition);
+    let hoverCommand = await hoverProvider(editor, nodePosition);
 
     if (hoverCommand.length > 0 && hoverCommand[0].contents && hoverCommand[0].contents.length > 0) {
         let res = hoverCommand[0].contents[0].value;
@@ -46,8 +46,6 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                 }
                 params.push({
                     label: label.replace('?', '').trim() + ':',
-                    nodeStart: node.start,
-                    currentNodeStart: node.start,
                     start: node.arguments[i].start,
                     end: node.arguments[i].end
                 });

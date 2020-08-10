@@ -8,7 +8,7 @@ let paramGenerated = {};
  */
 module.exports.hoverProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.what.loc.start.offset);
-    let hoverCommand = await hoverProvider(editor, node, nodePosition);
+    let hoverCommand = await hoverProvider(editor, nodePosition);
 
     if (hoverCommand.length > 0 && hoverCommand[0].contents && hoverCommand[0].contents.length > 0) {
         let res = hoverCommand[0].contents[0].value;
@@ -62,8 +62,6 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                 }
                 params.push({
                     label: label.replace('?', '').trim() + ':',
-                    nodeStart: node.what.loc.start.offset,
-                    currentNodeStart: node.what.loc.start.offset,
                     start: node.arguments[i].loc.start.offset - correction,
                     end: node.arguments[i].loc.end.offset
                 });

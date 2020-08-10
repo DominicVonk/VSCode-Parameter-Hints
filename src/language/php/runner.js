@@ -5,25 +5,23 @@ const { hoverProvider } = require("./providers/hover");
 const { signatureProvider } = require("./providers/signature");
 const HintList = require("../general/hintList");
 
-module.exports.runner = async function runner(pipeline, text, editor, positionOf, _nodes = null, _exclude = null) {
+module.exports.runner = async function runner(pipeline, text, editor, positionOf, _nodes = null) {
     let nodes;
-    let exclude;
     if (_nodes) {
         nodes = _nodes;
-        exclude = _exclude;
     } else {
-        [nodes, exclude] = parser(text);
+        nodes = parser(text);
     }
-    let hintList = new HintList(positionOf, exclude);
+    let hintList = new HintList(positionOf, editor);
     let promises = promiseList();
     for (let node of nodes) {
-        if (!hintList.hintExists(node)) {
+        if (hintList.nodeVisible(node)) {
             promises.push(
                 pipeline(async () => {
                     let signature = await signatureProvider(editor, node, positionOf);
                     if (signature && signature.length) {
                         signature.forEach(signatureHint => {
-                            hintList.addHint(node, signatureHint);
+                            hintList.addHint(signatureHint);
                         })
                         return true;
                     }
@@ -33,19 +31,18 @@ module.exports.runner = async function runner(pipeline, text, editor, positionOf
                         let hover = await hoverProvider(editor, node, positionOf);
                         if (hover && hover.length) {
                             hover.forEach(hoverHint => {
-                                hintList.addHint(node, hoverHint);
+                                hintList.addHint(hoverHint);
                             })
                             return true;
                         }
                         return false;
                     }
                 ).pipe(async () => {
-                    hintList.addDummy(node);
                     return true;
                 }))
         }
     }
     await promises.done();
     let hints = hintList.getHints();
-    return [hints, nodes, exclude];
+    return [hints, nodes];
 }

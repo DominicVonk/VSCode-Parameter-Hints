@@ -4,7 +4,7 @@ const { signatureProvider } = require('../../general/providers');
 let typescriptParser = new TypescriptParser();
 module.exports.signatureProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.end + 1);
-    let signatureHelp = await signatureProvider(editor, node, nodePosition);
+    let signatureHelp = await signatureProvider(editor, nodePosition);
     if (signatureHelp) {
         let signature = signatureHelp.signatures[signatureHelp.activeSignature];
         if (signature) {
@@ -40,8 +40,6 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                 if (label) {
                     params.push({
                         label: label.replace('?', '').trim() + ':',
-                        nodeStart: node.start,
-                        currentNodeStart: node.start,
                         start: node.arguments[i].start,
                         end: node.arguments[i].end
                     });

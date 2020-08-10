@@ -3,7 +3,7 @@ const { signatureProvider } = require('../../general/providers');
 module.exports.signatureProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.what.loc.end.offset + 1);
 
-    let signatureHelp = await signatureProvider(editor, node, nodePosition);
+    let signatureHelp = await signatureProvider(editor, nodePosition);
     if (signatureHelp) {
         let signature = signatureHelp.signatures[signatureHelp.activeSignature];
         if (signature) {
@@ -35,8 +35,6 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                     }
                     params.push({
                         label: label.replace('?', '').trim() + ':',
-                        nodeStart: node.what.loc.start.offset,
-                        currentNodeStart: node.what.loc.start.offset,
                         start: node.arguments[i].loc.start.offset - correction,
                         end: node.arguments[i].loc.end.offset
                     });

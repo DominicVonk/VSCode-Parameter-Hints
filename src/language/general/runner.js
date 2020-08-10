@@ -10,20 +10,19 @@ module.exports.runner = function runner(languageRunner, editor, after) {
 
         let hints = [];
         let nodes = null;
-        let exclude = [];
-        _languageRunner = (_nodes = null, _exclude = null) => promisable(async () => await languageRunner((action) => {
+        _languageRunner = (_nodes = null) => promisable(async () => await languageRunner((action) => {
             return promisable(action, () => state.done);
-        }, text, editor, positionOf, _nodes, _exclude), () => state.done);
+        }, text, editor, positionOf, _nodes), () => state.done);
 
 
         try {
-            [hints, nodes, exclude] = await _languageRunner().promise;
+            [hints, nodes] = await _languageRunner().promise;
             if (hints.length === 0) {
-                [hints, nodes, exclude] = await promisableOne((r) => {
+                [hints, nodes] = await promisableOne((r) => {
                     let count = 0;
                     console.log('retry', count);
                     let retry = () => setTimeout(async () => {
-                        let response = await _languageRunner(nodes, exclude).promise;
+                        let response = await _languageRunner(nodes).promise;
                         if (response.length && response[0].length || count > 3) {
                             r(response);
                         } else {
@@ -39,9 +38,9 @@ module.exports.runner = function runner(languageRunner, editor, after) {
                 after(hints);
             }
 
-            resolve([hints, nodes, exclude]);
+            resolve([hints, nodes]);
         } catch (e) {
-            resolve([hints, nodes, exclude]);
+            resolve([hints, nodes]);
         }
     });
     _runner.catch(e => { });

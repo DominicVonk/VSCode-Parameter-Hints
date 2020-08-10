@@ -6,9 +6,46 @@ class Hints {
      * @param {string} message
      * @param {Range} range
      */
-    static paramHint(message, range) {
+    static margin() {
         const currentState = workspace.getConfiguration('parameterHints');
+        let margins = currentState.get('margin').split(' ');
+        let top = 0;
+        if (margins[0].substr(0, 1) === '-') {
+            top = margins[0];
+        }
+        if (margins.length == 1) {
+            margins.push(margins[0]);
+        }
+        if (margins.length == 2) {
+            margins.push(margins[0]);
+        }
+        let bottom = 0;
+        if (margins[2].substr(0, 1) === '-') {
+            bottom = margins[0];
+        }
+        if (margins.length == 3) {
+            margins.push(margins[1]);
+        }
+        console.log(margins.join('px ') + 'px');
+        return margins.join('px ') + 'px; top: ' + top + 'px; bottom: ' + bottom + 'px;';
+    }
 
+    static padding() {
+        const currentState = workspace.getConfiguration('parameterHints');
+        let paddings = currentState.get('padding').split(' ');
+        if (paddings.length == 1) {
+            paddings.push(paddings[0]);
+        }
+        if (paddings.length == 2) {
+            paddings.push(paddings[0]);
+        }
+        if (paddings.length == 3) {
+            paddings.push(paddings[1]);
+        }
+        console.log(paddings.join('px ') + 'px');
+        return paddings.join('px ') + 'px';
+    }
+    static paramHint(message, range) {
         return {
             range,
             renderOptions: {
@@ -17,10 +54,7 @@ class Hints {
                     color: new ThemeColor('parameterHints.hintForeground'),
                     contentText: message,
                     backgroundColor: new ThemeColor('parameterHints.hintBackground'),
-                    margin: `${currentState.get('marginVertical')}px ${
-                        currentState.get('marginHorizontal')}px; padding: ${
-                        currentState.get('paddingVertical')}px ${
-                        currentState.get('paddingHorizontal')}px; `,
+                    margin: `${Hints.margin()}position: relative; padding: ${Hints.padding()}; display: inline-block;`,
                     borderRadius: '5px',
                     fontStyle: 'italic',
                     fontWeight: '400; font-size: 12px;'

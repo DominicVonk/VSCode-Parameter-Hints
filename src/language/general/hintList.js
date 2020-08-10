@@ -2,69 +2,51 @@ const Hints = require("../../lib/hints");
 const { Range } = require("vscode");
 
 class HintList {
-    constructor(positionOf, exclude = []) {
-        this.newHints = {};
+    constructor(positionOf, editor) {
+        this.hints = [];
         this.positionOf = positionOf;
-        this.exclude = exclude;
+        this.editor = editor;
     }
-    addHint(node, hint = null) {
+    addHint(hint = null) {
         if (hint) {
-            if (!this.newHints[node.hash]) {
-                this.newHints[node.hash] = {};
-            }
-            this.newHints[node.hash][hint.label] = { ...hint };
+            this.hints.push(hint);
             return true;
         } else {
             return false;
         }
     }
-    addDummy(node) {
-        this.newHints[node.hash] = true;
-        return true;
-    }
-    hintExists(node) {
-        if (HintList.currentHints[node.hash] === true) {
-            console.log('1');
-            return true;
-        }
-        if (HintList.currentHints[node.hash] && (!this.exclude.length || !this.exclude.includes(node.source))) {
-            let hints = Object.values(HintList.currentHints[node.hash]);
-            for (let _hint of hints) {
-                _hint.currentNodeStart = node.start;
-
-                if (!this.newHints[node.hash]) {
-                    this.newHints[node.hash] = {};
-                }
-                this.newHints[node.hash][_hint.label] = { ..._hint };
+    nodeVisible(node) {
+        let lineStart = this.positionOf(node.start).line;
+        let lineEnd = this.positionOf(node.final_end).line;
+        for (let range of this.editor.visibleRanges) {
+            let maxStart = Math.max(0, range.start.line - 100);
+            let maxEnd = range.end.line + 100;
+            if (lineStart >= maxStart && lineStart <= maxEnd) {
+                return true;
             }
-            return true;
+            if (lineEnd >= maxStart && lineEnd <= maxEnd) {
+                return true;
+            }
+            if (lineStart <= maxStart && lineEnd >= maxEnd) {
+                return true;
+            }
         }
         return false;
+
+
     }
     clearHints() {
-        HintList.currentHints = {};
-        this.newHints = {};
+        this.hints = [];
     }
     getHints() {
-        HintList.currentHints = { ...this.newHints };
-        let newHints = Object.values(this.newHints);
         let hintList = [];
-        for (let hintSubList of newHints) {
-            if (hintSubList !== true) {
-                let subHints = Object.values(hintSubList);
-                for (let e of subHints) {
-                    hintList.push(Hints.paramHint(e.label, new Range(
-                        this.positionOf(e.start + (e.currentNodeStart - e.nodeStart)),
-                        this.positionOf(e.end + (e.currentNodeStart - e.nodeStart)),
-                    )));
-                }
-            }
+        for (let hint of this.hints) {
+            hintList.push(Hints.paramHint(hint.label, new Range(
+                this.positionOf(hint.start),
+                this.positionOf(hint.end),
+            )));
         }
         return hintList;
     }
 }
-HintList.clear = () => {
-    HintList.currentHints = {};
-}
-HintList.currentHints = {};
 module.exports = HintList;

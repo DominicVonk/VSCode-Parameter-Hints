@@ -57,25 +57,15 @@
 							"javascript"
 						]
 					},
-					"parameterHints.paddingVertical": {
-						"type": "number",
+					"parameterHints.padding": {
+						"type": "string",
 						"description": "Padding Vertical",
-						"default": 1
+						"default": "1 4"
 					},
-					"parameterHints.paddingHorizontal": {
-						"type": "number",
-						"description": "Padding Horizontal",
-						"default": 4
-					},
-					"parameterHints.marginVertical": {
-						"type": "number",
-						"description": "Margin Vertical",
-						"default": 0
-					},
-					"parameterHints.marginHorizontal": {
-						"type": "number",
-						"description": "Margin Horizontal",
-						"default": 2
+					"parameterHints.margin": {
+						"type": "string",
+						"description": "Margin",
+						"default": "0 1"
 					}
 				}
 			}

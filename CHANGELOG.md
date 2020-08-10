@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.1] - 2020-08-11
+- Removed caching
+- Fixed margin and padding settings (now css-like syntax).
+- Instead of caching only show hints of current visible range.
+
 ## [0.1.0] - 2020-08-10
 - Parameter hint caching
 - Added padding and margin settings
