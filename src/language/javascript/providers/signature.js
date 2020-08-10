@@ -1,14 +1,10 @@
 const vscode = require('vscode');
 const { TypescriptParser } = require('typescript-parser');
+const { signatureProvider } = require('../../general/providers');
 let typescriptParser = new TypescriptParser();
 module.exports.signatureProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.end + 1);
-    const signatureHelp = await vscode.commands.executeCommand(
-        "vscode.executeSignatureHelpProvider",
-        editor.document.uri,
-        nodePosition,
-        '('
-    );
+    let signatureHelp = await signatureProvider(editor, node, nodePosition);
     if (signatureHelp) {
         let signature = signatureHelp.signatures[signatureHelp.activeSignature];
         if (signature) {
@@ -44,8 +40,10 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                 if (label) {
                     params.push({
                         label: label.replace('?', '').trim() + ':',
-                        range: new vscode.Range(positionOf(node.arguments[i].start),
-                            positionOf(node.arguments[i].end))
+                        nodeStart: node.start,
+                        currentNodeStart: node.start,
+                        start: node.arguments[i].start,
+                        end: node.arguments[i].end
                     });
                 }
             }

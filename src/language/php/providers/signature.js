@@ -1,12 +1,9 @@
 const vscode = require('vscode');
+const { signatureProvider } = require('../../general/providers');
 module.exports.signatureProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.what.loc.end.offset + 1);
-    const signatureHelp = await vscode.commands.executeCommand(
-        "vscode.executeSignatureHelpProvider",
-        editor.document.uri,
-        nodePosition,
-        '('
-    );
+
+    let signatureHelp = await signatureProvider(editor, node, nodePosition);
     if (signatureHelp) {
         let signature = signatureHelp.signatures[signatureHelp.activeSignature];
         if (signature) {
@@ -38,8 +35,10 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                     }
                     params.push({
                         label: label.replace('?', '').trim() + ':',
-                        range: new vscode.Range(positionOf(node.arguments[i].loc.start.offset - correction),
-                            positionOf(node.arguments[i].loc.end.offset))
+                        nodeStart: node.what.loc.start.offset,
+                        currentNodeStart: node.what.loc.start.offset,
+                        start: node.arguments[i].loc.start.offset - correction,
+                        end: node.arguments[i].loc.end.offset
                     });
                 }
             }

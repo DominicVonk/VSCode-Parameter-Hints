@@ -1,4 +1,4 @@
-const { ThemeColor, Range } = require('vscode');
+const { ThemeColor, Range, workspace } = require('vscode');
 
 class Hints {
     /**
@@ -7,6 +7,8 @@ class Hints {
      * @param {Range} range
      */
     static paramHint(message, range) {
+        const currentState = workspace.getConfiguration('parameterHints');
+
         return {
             range,
             renderOptions: {
@@ -15,7 +17,10 @@ class Hints {
                     color: new ThemeColor('parameterHints.hintForeground'),
                     contentText: message,
                     backgroundColor: new ThemeColor('parameterHints.hintBackground'),
-                    margin: `0px 2px 0px 2px; padding: 1px 4px;`,
+                    margin: `${currentState.get('marginVertical')}px ${
+                        currentState.get('marginHorizontal')}px; padding: ${
+                        currentState.get('paddingVertical')}px ${
+                        currentState.get('paddingHorizontal')}px; `,
                     borderRadius: '5px',
                     fontStyle: 'italic',
                     fontWeight: '400; font-size: 12px;'

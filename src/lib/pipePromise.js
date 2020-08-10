@@ -92,3 +92,34 @@ module.exports.promisable = function promisable(action, condition) {
         }
     }
 }
+
+module.exports.promisableOne = function promisableOne(action, condition) {
+    let interval;
+    let promise = cancellablePromise(async (resolve, reject, state) => {
+        try {
+            let output = await action(state);
+            resolve(output);
+
+        } catch (e) {
+            reject();
+        }
+    }, () => {
+        if (interval) {
+            clearInterval(interval);
+        }
+    })
+    if (condition) {
+        interval = setInterval(() => {
+            if (condition()) {
+                !promise.state.done && promise.reject(true);
+            }
+        }, 16);
+    }
+
+    return {
+        promise,
+        reject() {
+            promise.reject(true);
+        }
+    }
+}

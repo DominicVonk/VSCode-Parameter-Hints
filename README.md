@@ -26,6 +26,10 @@ Shows the parameter name of the called function
 ---|---|---
 |`parameterHints.enabled`|Enable Parameter Hints|`true`|
 |`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`["php","javascript"]`|
+|`parameterHints.paddingHorizontal`|Horizontal padding|`4`|
+|`parameterHints.paddingVertical`|Vertical padding|`1`|
+|`parameterHints.marginHorizontal`|Horizontal margin|`2`|
+|`parameterHints.marginVertical`|Vertical margin|`0`|
 
 &nbsp;
 &nbsp;

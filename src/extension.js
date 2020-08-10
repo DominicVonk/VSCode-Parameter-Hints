@@ -4,6 +4,8 @@ const vscode = require('vscode');
 const { runner } = require('./language/general/runner');
 const { runner: javascriptRunner } = require('./language/javascript/runner');
 const { runner: phpRunner } = require('./language/php/runner');
+const { resetCache } = require('./language/general/providers');
+const HintList = require('./language/general/hintList');
 
 const hintDecorationType = vscode.window.createTextEditorDecorationType({});
 // this method is called when your extension is activated
@@ -27,11 +29,18 @@ function activate(context) {
 	);
 
 	let timeout = null;
-	const trigger = (editor, force, time = 100) => {
-		currentRunner && !currentRunner.state.done && currentRunner.reject();
-
+	const trigger = (identifier, editor, force, time = 100, reset = false) => {
+		if (currentRunner && !currentRunner.state.done) {
+			currentRunner.reject();
+			console.log('stopped previous runner');
+		}
+		console.log(identifier, time);
 		if (timeout) {
 			clearTimeout(timeout);
+		}
+		if (reset) {
+			HintList.clear();
+			resetCache();
 		}
 		timeout = setTimeout(() => {
 			if (editor && (isEnabled() || force)) {
@@ -73,16 +82,16 @@ function activate(context) {
 		vscode.window.setStatusBarMessage(message, hideMessageAfterMs);
 	})
 
-	trigger(activeEditor);
+	trigger('on start', activeEditor, false, 100, true);
 
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
 		activeEditor = editor;
-		trigger(activeEditor);
+		trigger('change_active_text_editor', activeEditor, false, 100, true);
 	}));
 
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(event => {
 		if (event.contentChanges.length) {
-			trigger(activeEditor, false, 300);
+			trigger('text edited', activeEditor, false, 300);
 		}
 	}))
 }

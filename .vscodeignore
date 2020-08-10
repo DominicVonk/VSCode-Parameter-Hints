@@ -5,3 +5,13 @@
 **/.eslintrc.json
 *.vsix
 package-lock.json
+ISSUE_TEMPLATE.md
+PULL_REQUEST_TEMPLATE.md
+vsc-extension-quickstart.md
+node_modules/**/test/**
+
+# After webpack, we have more to ignore
+node_modules
+out/
+src/
+webpack.config.js

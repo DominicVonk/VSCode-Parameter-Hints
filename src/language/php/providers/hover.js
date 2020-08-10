@@ -1,16 +1,14 @@
 const vscode = require('vscode');
 const engine = require('php-parser');
+const { hoverProvider } = require('../../general/providers');
+let paramGenerated = {};
 /**
  * @param {vscode.TextEditor} editor
  * 
  */
 module.exports.hoverProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.what.loc.start.offset);
-    const hoverCommand = await vscode.commands.executeCommand(
-        "vscode.executeHoverProvider",
-        editor.document.uri,
-        nodePosition,
-    );
+    let hoverCommand = await hoverProvider(editor, node, nodePosition);
 
     if (hoverCommand.length > 0 && hoverCommand[0].contents && hoverCommand[0].contents.length > 0) {
         let res = hoverCommand[0].contents[0].value;
@@ -64,8 +62,10 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                 }
                 params.push({
                     label: label.replace('?', '').trim() + ':',
-                    range: new vscode.Range(positionOf(node.arguments[i].loc.start.offset - correction),
-                        positionOf(node.arguments[i].loc.end.offset))
+                    nodeStart: node.what.loc.start.offset,
+                    currentNodeStart: node.what.loc.start.offset,
+                    start: node.arguments[i].loc.start.offset - correction,
+                    end: node.arguments[i].loc.end.offset
                 });
             }
             return params;

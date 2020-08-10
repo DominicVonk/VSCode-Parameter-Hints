@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.0] - 2020-08-10
+- Parameter hint caching
+- Added padding and margin settings
+
 ## [0.0.8] - 2020-08-07
 - Added option to only enable hinting for specific languages
 - Fixed issue with php static function argument.

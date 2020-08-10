@@ -3,42 +3,51 @@ const { promiseList } = require("../../lib/promiseList");
 const { parser } = require("./parser");
 const { hoverProvider } = require("./providers/hover");
 const { signatureProvider } = require("./providers/signature");
+const HintList = require("../general/hintList");
 
-module.exports.runner = async function runner(pipeline, text, editor, positionOf, _nodes = null) {
+module.exports.runner = async function runner(pipeline, text, editor, positionOf, _nodes = null, _exclude = null) {
     let nodes;
+    let exclude;
     if (_nodes) {
         nodes = _nodes;
+        exclude = _exclude;
     } else {
-        nodes = parser(text);
+        [nodes, exclude] = parser(text);
     }
+    console.log('parsed');
+    let hintList = new HintList(positionOf, exclude);
     let promises = promiseList();
-    let hints = [];
+
     for (let node of nodes) {
-        promises.push(
-            pipeline(async () => {
-                let signature = await signatureProvider(editor, node, positionOf);
-                if (signature && signature.length) {
-                    signature.forEach(signatureHint => {
-                        hints.push(Hints.paramHint(signatureHint.label, signatureHint.range));
-                    })
-                    return true;
-                }
-                return false;
-            }).pipe(
-                async () => {
-                    let hover = await hoverProvider(editor, node, positionOf);
-                    if (hover && hover.length) {
-                        hover.forEach(hoverHint => {
-                            hints.push(Hints.paramHint(hoverHint.label, hoverHint.range));
+        if (!hintList.hintExists(node)) {
+            promises.push(
+                pipeline(async () => {
+                    let signature = await signatureProvider(editor, node, positionOf);
+                    if (signature && signature.length) {
+                        signature.forEach(signatureHint => {
+                            hintList.addHint(node, signatureHint);
                         })
                         return true;
                     }
                     return false;
-                }
-            ).pipe(async () => {
-                return true;
-            }))
+                }).pipe(
+                    async () => {
+                        let hover = await hoverProvider(editor, node, positionOf);
+                        if (hover && hover.length) {
+                            hover.forEach(hoverHint => {
+                                hintList.addHint(node, hoverHint);
+                            })
+                            return true;
+                        }
+                        return false;
+                    }
+                ).pipe(async () => {
+                    hintList.addDummy(node);
+                    return true;
+                }))
+        }
     }
     await promises.done();
-    return [hints, nodes];
+    let hints = hintList.getHints();
+    return [hints, nodes, exclude];
 }
