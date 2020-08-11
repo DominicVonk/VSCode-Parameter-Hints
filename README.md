@@ -5,6 +5,8 @@
 [![VS Marketplace Rating](https://vsmarketplacebadge.apphb.com/rating-short/DominicVonk.parameter-hints.svg)](https://marketplace.visualstudio.com/items?itemName=DominicVonk.parameter-hints)
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 
+<img src="icon.png" width="150" title="Logo">
+
 Shows the parameter name of the called function
 
 &nbsp;

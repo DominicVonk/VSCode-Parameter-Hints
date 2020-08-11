@@ -2,8 +2,9 @@
 	"name": "parameter-hints",
 	"displayName": "Parameter Hints",
 	"description": "Automatic parameter hints",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"preview": true,
+	"icon": "icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/DominicVonk/VSCode-Parameter-Hints.git"
