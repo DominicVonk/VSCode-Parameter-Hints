@@ -57,7 +57,7 @@ class Hints {
                     margin: `${Hints.margin()}position: relative; padding: ${Hints.padding()}; display: inline-block;`,
                     borderRadius: '5px',
                     fontStyle: 'italic',
-                    fontWeight: '400; font-size: 12px;'
+                    fontWeight: '400; font-size: 12px; line-height: 1;'
                 }
             }
         };

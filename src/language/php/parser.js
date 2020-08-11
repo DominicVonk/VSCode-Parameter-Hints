@@ -1,7 +1,6 @@
 
 const dashAst = require('../../lib/walker.js');
 const engine = require('php-parser');
-const hashCode = require('../../lib/hash.js');
 module.exports.parser = (text) => {
     let parser = new engine({
         parser: {
@@ -15,7 +14,6 @@ module.exports.parser = (text) => {
     });
     let ast = parser.parseCode(text);
     let nodes = {};
-    let localMethod = [];
     dashAst(ast, function (currentNode) {
         if (currentNode.kind === 'call') {
             if (currentNode.what.kind === 'propertylookup' || currentNode.what.kind === 'staticlookup') {

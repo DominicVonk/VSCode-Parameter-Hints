@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.1.4] - 2020-08-11
+- Fixed padding
+
 ## [0.1.1] - 2020-08-11
 - Removed caching
 - Fixed margin and padding settings (now css-like syntax).

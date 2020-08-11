@@ -1,7 +1,6 @@
 const vscode = require('vscode');
 const engine = require('php-parser');
 const { hoverProvider } = require('../../general/providers');
-let paramGenerated = {};
 /**
  * @param {vscode.TextEditor} editor
  * 

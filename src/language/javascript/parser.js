@@ -1,7 +1,6 @@
 
 const dashAst = require('dash-ast');
 const { parseModule: parse } = require('escaya');
-const hashCode = require('../../lib/hash.js');
 module.exports.parser = (text) => {
     let ast = parse(text, {
         next: true,
