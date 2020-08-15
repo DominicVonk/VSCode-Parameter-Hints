@@ -104,7 +104,7 @@
 			}
 		]
 	},
-	"main": "./src/extension.js",
+	"main": "./dist/extension.js",
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
