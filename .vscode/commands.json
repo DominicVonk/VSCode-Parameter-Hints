@@ -5,10 +5,6 @@
       "text": "$(sync)",
       "tooltip": "Refresh commands",
       "color": "#FFCC00"
-    },
-    {
-      "command": "vscode.commands.executeSignatureHelpProvider",
-      "text": "a"
     }
   ]
 }

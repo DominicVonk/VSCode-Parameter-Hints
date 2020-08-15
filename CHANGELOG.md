@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.0] - 2020-08-15
+- TypeScript Support
+- JavaScript React Support
+- TypeScript React Support
+- Typings support togglable in settings.
+
 ## [0.1.4] - 2020-08-11
 - Fixed padding
 

@@ -27,9 +27,10 @@ Shows the parameter name of the called function
 |Name|Description|Default|
 ---|---|---
 |`parameterHints.enabled`|Enable Parameter Hints|`true`|
-|`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`["php","javascript"]`|
+|`parameterHints.hintingType`|Enable Parameter Hints Type|`typeOnly|variableAndType|variableOnly`|
+|`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`["php","javascript","typescript","javascriptreact","typescriptreact"]`|
 |`parameterHints.padding`|Padding|`1 4`|
-|`parameterHints.margin`|Margin|`0 2`|
+|`parameterHints.margin`|Margin|`0 1`|
 
 &nbsp;
 &nbsp;
@@ -54,8 +55,6 @@ Shows the parameter name of the called function
 &nbsp;
 
 ## Credits
-[Escaya](https://github.com/escaya/escaya/)  
-[Dash-AST](https://github.com/goto-bus-stop/dash-ast)  
-[Node-Typescript-Parser](https://github.com/buehler/node-typescript-parse)  
-[php-parameter-hint](https://github.com/robertgr991/php-parameter-hint)  
+[Dash-AST](https://github.com/goto-bus-stop/dash-ast) 
+[TypeScript](https://github.com/microsoft/typescript/)   
 [php-parser](https://github.com/glayzzle/php-parser)

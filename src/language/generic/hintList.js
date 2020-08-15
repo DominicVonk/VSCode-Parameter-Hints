@@ -40,11 +40,15 @@ class HintList {
     }
     getHints() {
         let hintList = [];
-        for (let hint of this.hints) {
-            hintList.push(Hints.paramHint(hint.label, new Range(
-                this.positionOf(hint.start),
-                this.positionOf(hint.end),
-            )));
+        if (this.hints.length) {
+            for (let hint of this.hints) {
+                hintList.push(Hints.paramHint(hint.label, new Range(
+                    this.positionOf(hint.start),
+                    this.positionOf(hint.end),
+                )));
+            }
+        } else {
+            return [];
         }
         return hintList;
     }

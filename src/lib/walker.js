@@ -7,7 +7,7 @@ module.exports = dashAst
  * and `cb.leave` is called after processing a Node's children.
  */
 function dashAst(ast, cb) {
-    assert(ast && typeof ast === 'object' && (typeof ast.type === 'string' || typeof ast.kind === 'string'),
+    assert(ast && typeof ast === 'object' && (typeof ast.type === 'string' || typeof ast.kind === 'string' || typeof ast.kind === 'number'),
         'dash-ast: ast must be an AST node')
 
     if (typeof cb === 'object') {
@@ -49,7 +49,7 @@ function walkArray(nodes, parent, enter, leave) {
 }
 
 function isNode(node) {
-    return typeof node === 'object' && node && (typeof node.type === 'string' || typeof node.kind === 'string')
+    return typeof node === 'object' && node && (typeof node.type === 'string' || typeof node.kind === 'string' || typeof node.kind === 'number')
 }
 
 function has(obj, prop) {

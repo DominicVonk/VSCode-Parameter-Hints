@@ -5,7 +5,8 @@ module.exports.parser = (text) => {
     let parser = new engine({
         parser: {
             extractDoc: true,
-            php7: true
+            php7: true,
+            suppressErrors: true
         },
         ast: {
             withPositions: true,

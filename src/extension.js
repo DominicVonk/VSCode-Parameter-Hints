@@ -1,9 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-const { runner } = require('./language/general/runner');
-const { runner: javascriptRunner } = require('./language/javascript/runner');
+const { runner } = require('./language/generic/runner');
 const { runner: phpRunner } = require('./language/php/runner');
+const { runner: typescriptRunner } = require('./language/typescript/runner');
+const ts = require('typescript');
 
 const hintDecorationType = vscode.window.createTextEditorDecorationType({});
 // this method is called when your extension is activated
@@ -36,18 +37,61 @@ function activate(context) {
 		}
 		timeout = setTimeout(() => {
 			if (editor && (isEnabled() || force)) {
-				if (languagesEnabled().includes("javascript") && editor.document.languageId === 'javascript') {
-					currentRunner = runner(javascriptRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							editor.setDecorations(hintDecorationType, hints);
-						}
-					})
-				} else if (languagesEnabled().includes("php") && editor.document.languageId === 'php') {
+				if (languagesEnabled().includes("php") && editor.document.languageId === 'php') {
 					currentRunner = runner(phpRunner, editor, hints => {
 						if (hints !== false && isEnabled()) {
-							editor.setDecorations(hintDecorationType, hints);
+							if (hints.length) {
+								editor.setDecorations(hintDecorationType, hints);
+							} else {
+								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+							}
+
 						}
 					})
+				} else if (languagesEnabled().includes("typescript") && editor.document.languageId === 'typescript') {
+					currentRunner = runner(typescriptRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							if (hints.length) {
+								editor.setDecorations(hintDecorationType, hints);
+							} else {
+								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+							}
+
+						}
+					}, { language: ts.ScriptKind.TS })
+				} else if (languagesEnabled().includes("typescriptreact") && editor.document.languageId === 'typescriptreact') {
+					currentRunner = runner(typescriptRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							if (hints.length) {
+								editor.setDecorations(hintDecorationType, hints);
+							} else {
+								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+							}
+
+						}
+					}, { language: ts.ScriptKind.TSX })
+				} else if (languagesEnabled().includes("javascript") && editor.document.languageId === 'javascript') {
+					currentRunner = runner(typescriptRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							if (hints.length) {
+								editor.setDecorations(hintDecorationType, hints);
+							} else {
+								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+							}
+
+						}
+					}, { language: ts.ScriptKind.JS })
+				} else if (languagesEnabled().includes("javascriptreact") && editor.document.languageId === 'javascriptreact') {
+					currentRunner = runner(typescriptRunner, editor, hints => {
+						if (hints !== false && isEnabled()) {
+							if (hints.length) {
+								editor.setDecorations(hintDecorationType, hints);
+							} else {
+								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+							}
+
+						}
+					}, { language: ts.ScriptKind.JSX })
 				}
 			}
 		}, time);
@@ -69,7 +113,7 @@ function activate(context) {
 		if (currentState) {
 			clear(activeEditor)
 		} else {
-			trigger(activeEditor, true)
+			trigger('restart', activeEditor, true)
 		}
 		vscode.window.setStatusBarMessage(message, hideMessageAfterMs);
 	})

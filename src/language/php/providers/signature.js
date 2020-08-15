@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { signatureProvider } = require('../../general/providers');
+const { signatureProvider } = require('../../generic/providers');
 module.exports.signatureProvider = async (editor, node, positionOf) => {
     let nodePosition = positionOf(node.what.loc.end.offset + 1);
 
@@ -10,21 +10,67 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
             let variadicLabel = '';
             let params = [];
             var variadicCounter = 0;
+            let mode = vscode.workspace.getConfiguration("parameterHints").get(
+                "hintingType",
+            );
             for (let i = 0; i < node.arguments.length; i++) {
                 let label;
                 if (variadicLabel) {
-                    label = variadicLabel + '[' + variadicCounter + ']';
+                    if (mode === 'typeOnly') {
+                        label = variadicLabel;
+                    } else {
+                        label = variadicLabel + '[' + variadicCounter + ']';
+                    }
                     variadicCounter++;
                 } else if (signature.parameters.length <= i) {
                     break;
                 }
                 if (!label) {
-                    label = signature.parameters[i].label;
-                    label = label.match(/((\.\.\.|)(&|)(\$[0-9a-z_]+))/i)[1];
-                    if (label.substr(0, 3) == '...') {
-                        variadicLabel = label.substr(3);
-                        label = variadicLabel + '[' + variadicCounter + ']';
+                    let _label = signature.parameters[i].label;
+                    let startLabel = _label.match(/((\.\.\.|)(&|)(\$[0-9a-z_]+))/i)[1];
+                    label = startLabel;
+
+                    if (startLabel.substr(0, 3) == '...') {
+                        variadicLabel = startLabel.substr(3);
+                        if (mode === 'typeOnly') {
+                            label = variadicLabel;
+                        } else {
+                            label = variadicLabel + '[' + variadicCounter + ']';
+                        }
                         variadicCounter++;
+                    }
+                    if (mode === 'typeOnly' || mode === 'variableAndType') {
+                        if (_label.trim().substr(0, startLabel.length) !== startLabel) {
+                            if (mode === 'variableAndType') {
+                                label = _label.replace(startLabel, label);
+                            } else {
+                                label = _label.replace(startLabel, '');
+                            }
+                            if (label.indexOf('=') !== -1) {
+                                label = label.substr(0, label.indexOf('='));
+                            }
+                            if (variadicLabel) {
+                                variadicLabel = label;
+                            }
+                        } else {
+                            if (mode === 'variableAndType') {
+                                label = signature.parameters[i].documentation.value.match(/`(.*?)(\.\.\.|)(&|)(\$[0-9a-z_]+)/i)[1] + label;
+                                if (label.trim().substr(0, 5) === 'mixed') {
+                                    label = label.trim().substr(5);
+                                }
+                                if (variadicLabel) {
+                                    variadicLabel = label.substr(0, label.length - 3);
+                                }
+                            } else {
+                                label = signature.parameters[i].documentation.value.match(/`(.*?)(\.\.\.|)(&|)(\$[0-9a-z_]+)/i)[1].trim();
+                                if (label.trim().substr(0, 5) === 'mixed') {
+                                    label = label.trim().substr(5);
+                                }
+                                if (variadicLabel) {
+                                    variadicLabel = label.trim();
+                                }
+                            }
+                        }
                     }
                 }
                 if (label) {
@@ -40,11 +86,7 @@ module.exports.signatureProvider = async (editor, node, positionOf) => {
                     });
                 }
             }
-            if (params.length > 0) {
-                return params;
-            } else {
-                return false;
-            }
+            return params;
         }
     }
     return false;
