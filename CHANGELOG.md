@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.2.1] - 2020-08-16
+- Fixed some TS/JS/TSX/JSX typing issues.
+
 ## [0.2.0] - 2020-08-15
 - TypeScript Support
 - JavaScript React Support

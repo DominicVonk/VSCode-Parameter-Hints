@@ -17,16 +17,22 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                 return false;
             }
             let preparse = parsingString[1].trim();
-            preparse = preparse.replace(/var(.*?):(.*)/s, '(method) $2');
-            preparse = preparse.replace(/constructor\s*([a-zA-Z0-9]+)\s*\(/s, '(method) $1(');
-            preparse = preparse.replace(/const(.*?):(.*)/s, '(method) $2');
-            preparse = preparse.replace(/let(.*?):(.*)/s, '(method) $2');
+            preparse = preparse.replace(/^var(.*?):\s*(.*)/s, '(method) a$2');
+            preparse = preparse.replace(/^constructor\s*([a-zA-Z0-9]+)\s*\(/s, '(method) a$1(');
+            preparse = preparse.replace(/^const(.*?):\s*(.*)/s, '(method) a$2');
+            preparse = preparse.replace(/^let(.*?):\s*(.*)/s, '(method) a$2');
             preparse = preparse.replace(/\(method\)(([^(]*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
             preparse = preparse.replace(/\(alias\)((.*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
+            preparse = preparse.replace(/function (([^(]*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
+            preparse = preparse.replace(/function\s*([a-zA-Z0-9]+\.)([a-zA-Z0-9]+)/s, 'function $2');
             preparse = preparse.replace(/\(method\)\s*function\s*([a-zA-Z0-9]+)\s*<(.*?)>\(/s, '(method) function $1(');
 
-            preparse = preparse.replace('(method) ', '');
+            while (preparse.match((/^\(method\) /))) {
+                preparse = preparse.replace(/^\(method\) /, '');
+            }
+
             preparse = preparse.replace(/<(.*?)>(,|\)|\s*\|)/g, '$2');
+            console.log(preparse);
             let parsed = ts.createSourceFile('inline.ts', preparse, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
             subparams = parsed.statements[0].parameters;
             if (!subparams) {
