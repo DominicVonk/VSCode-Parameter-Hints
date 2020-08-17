@@ -17,15 +17,15 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                 return false;
             }
             let preparse = parsingString[1].trim();
-            preparse = preparse.replace(/^var(.*?):\s*(.*)/s, '(method) a$2');
+            preparse = preparse.replace(/^var(.*?):\s*(.*?)(\s*new\s*.*?\(|\()(.*)/s, '(method) a$2($4');
             preparse = preparse.replace(/^constructor\s*([a-zA-Z0-9]+)\s*\(/s, '(method) a$1(');
-            preparse = preparse.replace(/^const(.*?):\s*(.*)/s, '(method) a$2');
-            preparse = preparse.replace(/^let(.*?):\s*(.*)/s, '(method) a$2');
-            preparse = preparse.replace(/\(method\)(([^(]*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
-            preparse = preparse.replace(/\(alias\)((.*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
-            preparse = preparse.replace(/function (([^(]*?)\.|\s*)([a-zA-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
-            preparse = preparse.replace(/function\s*([a-zA-Z0-9]+\.)([a-zA-Z0-9]+)/s, 'function $2');
-            preparse = preparse.replace(/\(method\)\s*function\s*([a-zA-Z0-9]+)\s*<(.*?)>\(/s, '(method) function $1(');
+            preparse = preparse.replace(/^const(.*?):\s*(.*?)(\s*new\s*.*?\(|\()(.*)/s, '(method) a$2($4');
+            preparse = preparse.replace(/^let(.*?):\s*(.*?)(\s*new\s*.*?\(|\()(.*)/s, '(method) a$2($4');
+            preparse = preparse.replace(/\(method\)(([^(]*?)\.|\s*)([a-z_A-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
+            preparse = preparse.replace(/\(alias\)((.*?)\.|\s*)([a-z_A-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
+            preparse = preparse.replace(/function (([^(]*?)\.|\s*)([a-z_A-Z0-9]+)(\s*\(|\s*<)/s, '(method) function $3$4');
+            preparse = preparse.replace(/function\s*([a-zA-Z_0-9]+\.)([a-z_A-Z0-9]+)/s, 'function $2');
+            preparse = preparse.replace(/\(method\)\s*function\s*([a-z_A-Z0-9]+)\s*<(.*?)>\(/s, '(method) function $1(');
 
             while (preparse.match((/^\(method\) /))) {
                 preparse = preparse.replace(/^\(method\) /, '');
@@ -38,6 +38,7 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
             if (!subparams) {
                 return false;
             }
+            console.log(subparams, node.arguments.length);
             let params = [];
             let variadicLabel = '';
             var variadicCounter = 0;
@@ -45,6 +46,7 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
             for (let i = 0; i < node.arguments.length; i++) {
                 let label;
                 if (variadicLabel) {
+                    console.log(variadicLabel);
                     if (mode === 'typeOnly') {
                         label = variadicLabel;
                     } else {
@@ -98,17 +100,21 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                         let type = label.type.getFullText();
 
                         if (type.includes('|')) {
-                            type = label.type.types.map(e => {
-                                if (e.elementType && e.elementType.typeName) { return e.elementType.typeName.escapedText }
-                                if (e.typeName) { return e.typeName.escapedText }
-                                if (e.kind === ts.SyntaxKind.FunctionType) { return 'Function' }
-                                if (e.kind === ts.SyntaxKind.TypeLiteral) { return '' }
-                                if (e.kind === ts.SyntaxKind.StringKeyword) { return 'String' }
-                                if (e.kind === ts.SyntaxKind.NumberKeyword) { return 'Number' }
-                                if (e.kind === ts.SyntaxKind.BooleanKeyword) { return 'Boolean' }
-                                if (e.kind === ts.SyntaxKind.ObjectKeyword) { return 'Object' }
-                                return '';
-                            }).filter((v, i, a) => v).join(' | ')
+                            if (label.type.types) {
+                                type = label.type.types.map(e => {
+                                    if (e.elementType && e.elementType.typeName) { return e.elementType.typeName.escapedText }
+                                    if (e.typeName) { return e.typeName.escapedText }
+                                    if (e.kind === ts.SyntaxKind.FunctionType) { return 'Function' }
+                                    if (e.kind === ts.SyntaxKind.TypeLiteral) { return '' }
+                                    if (e.kind === ts.SyntaxKind.StringKeyword) { return 'String' }
+                                    if (e.kind === ts.SyntaxKind.NumberKeyword) { return 'Number' }
+                                    if (e.kind === ts.SyntaxKind.BooleanKeyword) { return 'Boolean' }
+                                    if (e.kind === ts.SyntaxKind.ObjectKeyword) { return 'Object' }
+                                    return '';
+                                }).filter((v, i, a) => v).join(' | ')
+                            } else {
+                                type = '';
+                            }
                         } else {
                             let e = label.type;
                             if (e) {
@@ -130,8 +136,10 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                     } else if (mode === 'variableOnly') {
                         label = label.name.escapedText;
                     }
+                    console.log(variadic, label);
                     if (variadic) {
                         variadicLabel = label;
+                        console.log(variadicLabel);
                         if (mode === 'typeOnly') {
                             label = variadicLabel;
                         } else {
