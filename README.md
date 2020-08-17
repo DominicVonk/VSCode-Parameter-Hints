@@ -31,8 +31,8 @@ Shows the parameter name of the called function
 |Name|Description|Default|
 ---|---|---
 |`parameterHints.enabled`|Enable Parameter Hints|`true`|
-|`parameterHints.hintingType`|Enable Parameter Hints Type|`typeOnly|variableAndType|variableOnly`|
-|`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`["php","javascript","typescript","javascriptreact","typescriptreact"]`|
+|`parameterHints.hintingType`|Enable Parameter Hints Type|`variableAndType`|
+|`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`all`|
 |`parameterHints.padding`|Padding|`1 4`|
 |`parameterHints.margin`|Margin|`0 1`|
 
