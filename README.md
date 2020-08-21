@@ -6,7 +6,7 @@
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![GitHub](https://img.shields.io/github/issues/DominicVonk/vscode-parameter-hints.svg?style=flat)](https://github.com/DominicVonk/vscode-parameter-hints/issues)
 
-<img src="icon.png" width="150" title="Logo">
+![Preview](preview.png)
 
 Shows the parameter name of the called function
 
