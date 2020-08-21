@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"package": "npx vsce package",
-		"publish": "npx vsce publish",
+		"publish": "npx vsce publish && npx ovsx publish",
 		"vscode:prepublish": "webpack --mode production",
 		"compile": "webpack --mode none",
 		"watch": "webpack --mode none --watch",
