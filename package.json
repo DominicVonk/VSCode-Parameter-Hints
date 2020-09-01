@@ -80,9 +80,9 @@
 						"description": "Margin",
 						"default": "0 1"
 					},
-					"parameterHints.style": {
+					"parameterHints.styles": {
 						"type": "object",
-						"description": "Override styling for hints",
+						"description": "Override styles for hints",
 						"default": {}
 					}
 				}

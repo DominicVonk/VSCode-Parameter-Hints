@@ -46,7 +46,7 @@ class Hints {
         return paddings.join('px ') + 'px';
     }
     static paramHint(message, range) {
-        const style = workspace.getConfiguration('parameterHints.style');
+        const styles = workspace.getConfiguration('parameterHints.styles');
         return {
             range,
             renderOptions: {
@@ -59,7 +59,7 @@ class Hints {
                     borderRadius: '5px',
                     fontStyle: 'italic',
                     fontWeight: '400; font-size: 12px; line-height: 1;',
-                    ...style
+                    ...styles
                 }
             }
         };
