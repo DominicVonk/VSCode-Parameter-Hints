@@ -79,6 +79,11 @@
 						"type": "string",
 						"description": "Margin",
 						"default": "0 1"
+					},
+					"parameterHints.style": {
+						"type": "object",
+						"description": "Override styling for hints",
+						"default": {}
 					}
 				}
 			}
