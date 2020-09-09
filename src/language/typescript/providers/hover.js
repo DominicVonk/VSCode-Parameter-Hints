@@ -139,7 +139,7 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                     //console.log(variadic, label);
                     if (variadic) {
                         variadicLabel = label;
-                        console.log(variadicLabel);
+                        //console.log(variadicLabel);
                         if (mode === 'typeOnly') {
                             label = variadicLabel;
                         } else {
