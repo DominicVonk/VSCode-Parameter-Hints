@@ -16,6 +16,6 @@ module.exports.runner = function runner(languageRunner, editor, after, parserOpt
 
         }
     });
-    _runner.catch(e => { console.log(e) });
+    _runner.catch(e => { /*console.log(e)*/ });
     return _runner;
 }

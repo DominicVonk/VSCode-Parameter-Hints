@@ -32,13 +32,13 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
             }
 
             preparse = preparse.replace(/<(.*?)>(,|\)|\s*\|)/g, '$2');
-            console.log(preparse);
+            //console.log(preparse);
             let parsed = ts.createSourceFile('inline.ts', preparse, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
             subparams = parsed.statements[0].parameters;
             if (!subparams) {
                 return false;
             }
-            console.log(subparams, node.arguments.length);
+            //console.log(subparams, node.arguments.length);
             let params = [];
             let variadicLabel = '';
             var variadicCounter = 0;
@@ -46,7 +46,7 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
             for (let i = 0; i < node.arguments.length; i++) {
                 let label;
                 if (variadicLabel) {
-                    console.log(variadicLabel);
+                    // console.log(variadicLabel);
                     if (mode === 'typeOnly') {
                         label = variadicLabel;
                     } else {
@@ -136,7 +136,7 @@ module.exports.hoverProvider = async (editor, node, positionOf) => {
                     } else if (mode === 'variableOnly') {
                         label = label.name.escapedText;
                     }
-                    console.log(variadic, label);
+                    //console.log(variadic, label);
                     if (variadic) {
                         variadicLabel = label;
                         console.log(variadicLabel);
