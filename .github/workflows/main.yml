@@ -24,10 +24,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: NPM or Yarn install with caching
-        # You may pin to the exact commit or the version.
-        # uses: bahmutov/npm-install@31bd3e6472a5b2d6121d78d4dc1ffa9eab86ea5b
-        uses: bahmutov/npm-install@v1.1.0
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: npm install
       # Runs a single command using the runners shell
       - name: vsce publish
       # You may pin to the exact commit or the version.
