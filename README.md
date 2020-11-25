@@ -41,6 +41,20 @@ Shows the parameter name of the called function
 
 ## Colors
 
+The background and foreground colors can be customized under 
+`workbench.colorCustomizations` like this:
+
+```js
+// settings.json
+{
+    // ...
+    "workbench.colorCustomizations": {
+        "parameterHints.hintBackground": "#37415180",
+        "parameterHints.hintForeground": "#9CA3AF"
+    },
+}
+```
+
 | Name | Description |
 ---|---
 |`parameterHints.hintForeground`|Specifies the foreground color for the hint|
