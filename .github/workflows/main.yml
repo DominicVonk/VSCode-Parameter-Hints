@@ -29,10 +29,4 @@ jobs:
           node-version: '12'
       - run: npm install
       # Runs a single command using the runners shell
-      - name: vsce publish
-      # You may pin to the exact commit or the version.
-      # uses: sigma/vsce-publish-action@b888dc8468ce39a3e940118f65f47a43ff1570cb
-        uses: sigma/vsce-publish-action@v0.0.2
-        with:
-            # vsce token
-          vsce_token: ${{ secrets.VSCE_TOKEN }}
+      - run: npx vsce publish -p ${{ secrets.VSCE_TOKEN }}
