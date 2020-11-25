@@ -30,3 +30,4 @@ jobs:
       - run: npm install
       # Runs a single command using the runners shell
       - run: npx vsce publish -p ${{ secrets.VSCE_TOKEN }}
+      - run: npx ovsx publish -p ${{ secrets.OVSX_TOKEN }}
