@@ -32,4 +32,4 @@ jobs:
         uses: sigma/vsce-publish-action@v0.0.2
         with:
             # vsce token
-          vsce_token: $VSCE_TOKEN
+          vsce_token: ${{ secrets.VSCE_TOKEN }}
