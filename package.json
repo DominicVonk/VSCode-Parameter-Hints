@@ -18,7 +18,7 @@
 		"test-compile": "npm run compile"
 	},
 	"engines": {
-		"vscode": "^1.48.0"
+		"vscode": "^1.49.0"
 	},
 	"publisher": "DominicVonk",
 	"categories": [
