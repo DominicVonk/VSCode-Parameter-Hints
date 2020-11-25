@@ -2,7 +2,7 @@
 	"name": "parameter-hints",
 	"displayName": "Parameter Hints",
 	"description": "Automatic parameter hints",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"preview": true,
 	"icon": "icon.png",
 	"repository": {
@@ -108,14 +108,14 @@
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
-		"@types/node": "^13.11.0",
-		"@types/vscode": "^1.48.0",
+		"@types/node": "^13.13.21",
+		"@types/vscode": "^1.49.0",
 		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.2",
-		"typescript": "^4.1.0-dev.20200815",
+		"typescript": "^4.1.0-dev.20200930",
 		"vscode-test": "^1.4.0",
-		"webpack": "^4.44.1",
+		"webpack": "^4.44.2",
 		"webpack-cli": "^3.3.12"
 	},
 	"dependencies": {
