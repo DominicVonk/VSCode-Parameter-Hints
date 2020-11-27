@@ -79,7 +79,17 @@
 						"type": "string",
 						"description": "Margin",
 						"default": "0 1"
-					}
+					},
+					"parameterHints.defaultStyles": {
+                        "type": "object",
+                        "description": "Override styles for hints (default)",
+                        "default": {}
+                    },
+                    "parameterHints.themeStyles": {
+                        "type": "object",
+                        "description": "Override styles for hints (per theme)",
+                        "default": {}
+                    }
 				}
 			}
 		],
