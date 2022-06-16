@@ -2,7 +2,7 @@
 	"name": "parameter-hints",
 	"displayName": "Parameter Hints",
 	"description": "Automatic parameter hints",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"preview": true,
 	"icon": "icon.png",
 	"repository": {
@@ -48,6 +48,7 @@
 						"description": "Enable Languages",
 						"default": [
 							"php",
+							"vue",
 							"javascript",
 							"typescript",
 							"javascriptreact",
@@ -55,6 +56,7 @@
 						],
 						"enum": [
 							"php",
+							"vue",
 							"javascript",
 							"typescript",
 							"javascriptreact",
