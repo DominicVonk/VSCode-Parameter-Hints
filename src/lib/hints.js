@@ -45,6 +45,13 @@ class Hints {
         }
         return paddings.join('px ') + 'px';
     }
+
+    static fontSize() {
+        const currentState = workspace.getConfiguration('parameterHints');
+        const fontSize = currentState.get('fontSize') || 12;
+        return `${fontSize}px`
+    }
+    
     static paramHint(message, range) {
         return {
             range,
@@ -57,6 +64,7 @@ class Hints {
                     margin: `${Hints.margin()}position: relative; padding: ${Hints.padding()}; display: inline-block;`,
                     borderRadius: '5px',
                     fontStyle: 'italic',
+                    fontSize: Hints.fontSize(),
                     fontWeight: '400; font-size: 12px; line-height: 1;'
                 }
             }

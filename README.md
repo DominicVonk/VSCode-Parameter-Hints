@@ -35,6 +35,7 @@ Shows the parameter name of the called function
 |`parameterHints.languages`|Enable Parameter Hints only for the selected languages|`all`|
 |`parameterHints.padding`|Padding|`1 4`|
 |`parameterHints.margin`|Margin|`0 1`|
+|`parameterHints.fontSize`|Parameter Font Size|`1`|
 
 &nbsp;
 &nbsp;
