@@ -79,6 +79,11 @@
 						"type": "string",
 						"description": "Margin",
 						"default": "0 1"
+					},
+					"parameterHints.fontSize": {
+						"type": "number",
+						"description": "Parameter Font Size",
+						"default": 12
 					}
 				}
 			}
