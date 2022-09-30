@@ -36,64 +36,67 @@ function activate(context) {
 			clearTimeout(timeout);
 		}
 		timeout = setTimeout(() => {
-			if (editor && (isEnabled() || force)) {
-				if (languagesEnabled().includes("php") && editor.document.languageId === 'php') {
-					currentRunner = runner(phpRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							if (hints.length) {
-								editor.setDecorations(hintDecorationType, hints);
-							} else {
-								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-							}
-
-						}
-					})
-				} else if (languagesEnabled().includes("typescript") && editor.document.languageId === 'typescript') {
-					currentRunner = runner(typescriptRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							if (hints.length) {
-								editor.setDecorations(hintDecorationType, hints);
-							} else {
-								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-							}
-
-						}
-					}, { language: ts.ScriptKind.TS })
-				} else if (languagesEnabled().includes("typescriptreact") && editor.document.languageId === 'typescriptreact') {
-					currentRunner = runner(typescriptRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							if (hints.length) {
-								editor.setDecorations(hintDecorationType, hints);
-							} else {
-								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-							}
-
-						}
-					}, { language: ts.ScriptKind.TSX })
-				} else if (languagesEnabled().includes("javascript") && editor.document.languageId === 'javascript') {
-					currentRunner = runner(typescriptRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							if (hints.length) {
-								editor.setDecorations(hintDecorationType, hints);
-							} else {
-								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-							}
-
-						}
-					}, { language: ts.ScriptKind.JS })
-				} else if (languagesEnabled().includes("javascriptreact") && editor.document.languageId === 'javascriptreact') {
-					currentRunner = runner(typescriptRunner, editor, hints => {
-						if (hints !== false && isEnabled()) {
-							if (hints.length) {
-								editor.setDecorations(hintDecorationType, hints);
-							} else {
-								editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
-							}
-
-						}
-					}, { language: ts.ScriptKind.JSX })
-				}
+			if (!editor || !(isEnabled() || force)) {
+				return;
 			}
+			if (languagesEnabled().includes("php") && editor.document.languageId === 'php') {
+				currentRunner = runner(phpRunner, editor, hints => {
+					if (hints === false || !isEnabled()) {
+						return;
+					}
+					if (hints.length) {
+						editor.setDecorations(hintDecorationType, hints);
+					} else {
+						editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+					}
+				})
+			} else if (languagesEnabled().includes("typescript") && editor.document.languageId === 'typescript') {
+				currentRunner = runner(typescriptRunner, editor, hints => {
+					if (hints === false || !isEnabled()) {
+						return;
+					}
+					if (hints.length) {
+						editor.setDecorations(hintDecorationType, hints);
+					} else {
+						editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+					}
+					
+				}, { language: ts.ScriptKind.TS })
+			} else if (languagesEnabled().includes("typescriptreact") && editor.document.languageId === 'typescriptreact') {
+				currentRunner = runner(typescriptRunner, editor, hints => {
+					if (hints === false !! !isEnabled()) {
+						return
+					}
+					if (hints.length) {
+						editor.setDecorations(hintDecorationType, hints);
+					} else {
+						editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+					}
+				}, { language: ts.ScriptKind.TSX })
+			} else if (languagesEnabled().includes("javascript") && editor.document.languageId === 'javascript') {
+				currentRunner = runner(typescriptRunner, editor, hints => {
+					if (hints === false || !isEnabled()) {
+						return;
+					}
+					if (hints.length) {
+						editor.setDecorations(hintDecorationType, hints);
+					} else {
+						editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+					}
+				}, { language: ts.ScriptKind.JS })
+			} else if (languagesEnabled().includes("javascriptreact") && editor.document.languageId === 'javascriptreact') {
+				currentRunner = runner(typescriptRunner, editor, hints => {
+					if (hints === false || !isEnabled()) {
+						return;
+					}
+					if (hints.length) {
+						editor.setDecorations(hintDecorationType, hints);
+					} else {
+						editor.setDecorations(hintDecorationType, [new vscode.Range(0, 0, 0, 0)]);
+					}
+				}, { language: ts.ScriptKind.JSX })
+			}
+			
 		}, time);
 	}
 	const clear = (editor) => {
